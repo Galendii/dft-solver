@@ -2,7 +2,14 @@ import React, { ChangeEvent, useState } from 'react';
 import { Title, Description } from '../../typography';
 import ComplexNumber from '../../utils/ComplexNumber';
 import { Container, Row } from './styles';
-import { LineChart, Line, CartesianGrid, Tooltip } from 'recharts';
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  Tooltip,
+  YAxis,
+  XAxis,
+} from 'recharts';
 
 interface DftSignalI {
   x: number;
@@ -65,20 +72,21 @@ const Home: React.FC = () => {
     return signals;
   }
 
-  const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFile = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
       setLoading(undefined);
       const { files } = e.target;
       const reader = new FileReader();
       if (files) {
-        files && console.log(files[0]);
         reader.onload = async e => {
           const res = e.target?.result;
           if (res) {
             const text = res.toString();
             text.replaceAll(' ', '');
             const array = JSON.parse('[' + text + ']');
-            const signal = dft(array);
+            const signal = await dft(array);
+            setImagDFTSignal([]);
+            setRealDFTSignal([]);
             signal.map((value, index) => {
               setLoading(true);
               setRealDFTSignal(prevState => [
@@ -116,6 +124,8 @@ const Home: React.FC = () => {
             <LineChart width={400} height={400} data={realDFTSignal}>
               <Line type="monotone" dot={false} dataKey="x" stroke="#8884d8" />
               <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+              <XAxis />
+              <YAxis />
               <Tooltip />
             </LineChart>
           </div>
@@ -127,6 +137,8 @@ const Home: React.FC = () => {
               <Line dot={false} type="monotone" dataKey="x" stroke="#8884d8" />
               <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
               <Tooltip />
+              <XAxis />
+              <YAxis />
             </LineChart>
           </div>
         )}

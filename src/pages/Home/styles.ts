@@ -9,10 +9,13 @@ export const Container = styled.div`
 
   h1 {
     text-align: center;
-    margin: 5px;
+    margin: 7px;
   }
   span {
-    margin: 2px 0;
+    margin: 5px 0;
+  }
+  input {
+    margin: 5px 0;
   }
 `;
 
