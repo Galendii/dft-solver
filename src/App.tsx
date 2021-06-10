@@ -1,11 +1,13 @@
+import Home from './pages/Home';
 import Global from './styles/global';
+import Layout from './styles/Layout';
 
 const App = () => {
   return (
-    <>
+    <Layout>
       <Global />
-      <h1>Create React App - Cra Template Pandora</h1>
-    </>
+      <Home />
+    </Layout>
   );
 };
 
