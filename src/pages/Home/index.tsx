@@ -19,7 +19,6 @@ interface DftSignalI {
 const Home: React.FC = () => {
   const [realDFTSignal, setRealDFTSignal] = useState<DftSignalI[]>([]);
   const [imagDFTSignal, setImagDFTSignal] = useState<DftSignalI[]>([]);
-  const [inputData, setInputData] = useState<DftSignalI[]>([]);
   const [loading, setLoading] = useState<boolean | undefined>(undefined);
 
   function dft(inputAmplitudes: number[], zeroThreshold = 1e-10) {
