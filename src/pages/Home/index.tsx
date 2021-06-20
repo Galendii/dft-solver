@@ -19,6 +19,7 @@ interface DftSignalI {
 const Home: React.FC = () => {
   const [realDFTSignal, setRealDFTSignal] = useState<DftSignalI[]>([]);
   const [imagDFTSignal, setImagDFTSignal] = useState<DftSignalI[]>([]);
+  const [inputData, setInputData] = useState<DftSignalI[]>([]);
   const [loading, setLoading] = useState<boolean | undefined>(undefined);
 
   function dft(inputAmplitudes: number[], zeroThreshold = 1e-10) {
@@ -37,7 +38,6 @@ const Home: React.FC = () => {
 
         // Calculate rotation angle.
         const rotationAngle = -1 * (2 * Math.PI) * frequency * (timer / N);
-
         // Remember that e^ix = cos(x) + i * sin(x);
         // eslint-disable-next-line
         // @ts-ignore
@@ -84,18 +84,18 @@ const Home: React.FC = () => {
             const text = res.toString();
             text.replaceAll(' ', '');
             const array = JSON.parse('[' + text + ']');
-            const signal = await dft(array);
+            const signal = dft(array);
             setImagDFTSignal([]);
             setRealDFTSignal([]);
             signal.map((value, index) => {
               setLoading(true);
               setRealDFTSignal(prevState => [
                 ...prevState,
-                { x: value.re, y: index },
+                { x: value.re * 1000, y: index },
               ]);
               setImagDFTSignal(prevState => [
                 ...prevState,
-                { x: value.im, y: index },
+                { x: value.im * 1000, y: index },
               ]);
               index + 1 === signal.length && setLoading(false);
               return index;
@@ -117,6 +117,18 @@ const Home: React.FC = () => {
         valores do vetor deverão estar separados por vírgulas
       </Description>
       <input type="file" onChange={e => handleFile(e)} />
+      {!loading && (
+        <div>
+          <Title>Dado de Entrada</Title>
+          <LineChart width={400} height={400} data={realDFTSignal}>
+            <Line type="monotone" dot={false} dataKey="x" stroke="#8884d8" />
+            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+            <XAxis />
+            <YAxis />
+            <Tooltip />
+          </LineChart>
+        </div>
+      )}
       <Row>
         {!loading && (
           <div>
