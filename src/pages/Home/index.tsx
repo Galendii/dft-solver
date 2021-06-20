@@ -117,18 +117,7 @@ const Home: React.FC = () => {
         valores do vetor deverão estar separados por vírgulas
       </Description>
       <input type="file" onChange={e => handleFile(e)} />
-      {!loading && (
-        <div>
-          <Title>Dado de Entrada</Title>
-          <LineChart width={400} height={400} data={realDFTSignal}>
-            <Line type="monotone" dot={false} dataKey="x" stroke="#8884d8" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis />
-            <YAxis />
-            <Tooltip />
-          </LineChart>
-        </div>
-      )}
+
       <Row>
         {!loading && (
           <div>
